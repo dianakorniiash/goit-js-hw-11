@@ -39,7 +39,7 @@ export function onFormSubmit(event) {
     .catch(error => {
       hideLoader();
       iziToast.error({
-        message: `Houston, we have a problem.`,
+        message: `Oops, something is wrong.`,
         position: 'topRight',
         backgroundColor: '#ef4040',
         messageColor: '#ffffff',
