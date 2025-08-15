@@ -2,17 +2,19 @@ import { refs } from './refs';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-let gallery = '';
 let galleryLightBox;
 
 export function createGallery(images) {
-  for (const image of images) {
-    gallery += `<li class="gallery-item"><a href="${image.largeImageURL}" class="gallery-link">
+ 
+  const galleryMarkup = images
+    .map(
+      image => `
+        <li class="gallery-item">
+          <a href="${image.largeImageURL}" class="gallery-link">
             <img
               src="${image.webformatURL}"
               alt="${image.tags}"
               class="gallery-image"
-              
             />
           </a>
           <ul class="image-stats-list">
@@ -33,11 +35,16 @@ export function createGallery(images) {
               <p class="image-stats">${image.downloads}</p>
             </li>
           </ul>
-          </li>`;
-  }
+        </li>`
+    )
+    .join('');
+
+
+  refs.galleryEl.innerHTML = galleryMarkup;
+
 
   hideLoader();
-  refs.galleryEl.insertAdjacentHTML('beforeend', gallery);
+
 
   if (!galleryLightBox) {
     galleryLightBox = new SimpleLightbox('.gallery a', {
@@ -56,19 +63,17 @@ export function createGallery(images) {
   }
 }
 
+
 export function clearGallery() {
-  gallery = [];
   refs.galleryEl.innerHTML = '';
 }
 
+
 export function showLoader() {
-  if (refs.loaderEl.classList.contains('visually-hidden')) {
-    refs.loaderEl.classList.remove('visually-hidden');
-  }
+  refs.loaderEl.classList.remove('visually-hidden');
 }
 
+
 export function hideLoader() {
-  if (!refs.loaderEl.classList.contains('visually-hidden')) {
-    refs.loaderEl.classList.add('visually-hidden');
-  }
+  refs.loaderEl.classList.add('visually-hidden');
 }
